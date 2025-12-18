@@ -21,30 +21,12 @@
       position: fixed;
       inset: 0;
       background: radial-gradient(circle at center, rgba(255,105,180,0.12), transparent 70%);
-      animation: heartbeatGlow 8s ease-in-out infinite;
+      animation: glow 8s ease-in-out infinite;
       z-index: -1;
     }
-    @keyframes heartbeatGlow {
+    @keyframes glow {
       0%,100% { opacity: 0.25; }
       50% { opacity: 0.45; }
-    }
-
-    /* Rose petals */
-    .petal {
-      position: fixed;
-      top: -12%;
-      width: 14px;
-      height: 20px;
-      background: radial-gradient(circle at 30% 30%, #ffd6ea, #e75480);
-      border-radius: 60% 40% 60% 40%;
-      opacity: 0.25;
-      animation: fall linear infinite;
-      z-index: -1;
-    }
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      20% { opacity: 0.3; }
-      100% { transform: translateY(150vh) rotate(360deg); opacity: 0; }
     }
 
     /* Reveal animation */
@@ -66,13 +48,6 @@
   <audio id="heartbeatAudio" preload="auto" loop playsinline>
     <source src="heartbeat.mp3" type="audio/mpeg">
   </audio>
-
-  <!-- Petals -->
-  <div class="petal left-[8%]"  style="animation-duration:40s;"></div>
-  <div class="petal left-[24%]" style="animation-duration:44s; animation-delay:6s;"></div>
-  <div class="petal left-[45%]" style="animation-duration:42s; animation-delay:12s;"></div>
-  <div class="petal left-[66%]" style="animation-duration:46s; animation-delay:4s;"></div>
-  <div class="petal left-[82%]" style="animation-duration:48s; animation-delay:10s;"></div>
 
   <!-- SECTION 1 -->
   <section class="min-h-screen flex items-center justify-center px-6 text-center">
@@ -106,29 +81,29 @@
     </div>
   </section>
 
-  <!-- SECTION 4 -->
-  <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
-      <p class="reveal">Through the longest nights 🌙</p>
-      <p class="reveal">and the slowest mornings ☀️</p>
-      <p class="reveal">I’ll stay, until your strength remembers itself ✨</p>
-    </div>
-  </section>
-
-  <!-- FINAL -->
+  <!-- FINAL SECTION -->
   <section class="min-h-screen flex items-center justify-center px-6 text-center">
     <div class="max-w-3xl">
-      <p class="script text-3xl md:text-4xl reveal">
+      <p id="finalLine" class="script text-3xl md:text-4xl reveal">
         Get well soon, <span id="name2">Ashok</span> 😘
       </p>
       <p class="serif text-xl md:text-2xl text-rose-600 mt-14 reveal">
-        🤗 Always near, always yours — in every quiet heartbeat.
+        🤗 Always near, always yours — even in silence.
       </p>
     </div>
   </section>
 
-  <!-- 🔚 END SENTINEL (DO NOT STYLE / DO NOT REMOVE) -->
-  <div id="endSentinel" style="height: 1px;"></div>
+  <!-- 🔈 Mute Button -->
+  <button
+    id="muteBtn"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 
+           bg-white/70 backdrop-blur-md 
+           px-5 py-2 rounded-full shadow-lg 
+           text-rose-600 text-sm serif
+           transition hover:scale-105 active:scale-95"
+  >
+    🔊 Sound on
+  </button>
 
   <script>
     /* Name from URL */
@@ -151,32 +126,43 @@
     );
     reveals.forEach(el => revealObserver.observe(el));
 
-    /* 💓 Heartbeat + Breath Audio */
+    /* 💓 Heartbeat Audio */
     const audio = document.getElementById("heartbeatAudio");
-    let audioStarted = false;
-    let audioStopped = false;
+    const muteBtn = document.getElementById("muteBtn");
 
-    function startHeartbeat() {
-      if (audioStarted || audioStopped) return;
-      audio.volume = 0.3;
+    let started = false;
+    let stopped = false;
+    let muted = false;
+
+    function startAudio() {
+      if (started || stopped) return;
+      audio.volume = 0.25;
       audio.play().then(() => {
-        audioStarted = true;
-        audio.volume = 0.18;
+        started = true;
+        audio.volume = 0.15;
       }).catch(() => {});
     }
 
-    window.addEventListener("scroll", startHeartbeat, { once: true });
-    window.addEventListener("click", startHeartbeat, { once: true });
-    document.addEventListener("touchstart", startHeartbeat, { once: true });
+    document.addEventListener("touchstart", startAudio, { once: true });
+    document.addEventListener("click", startAudio, { once: true });
+    window.addEventListener("scroll", startAudio, { once: true });
 
-    /* 🛑 STOP HEARTBEAT AT TRUE END */
-    const endSentinel = document.getElementById("endSentinel");
+    /* 🔇 Mute toggle */
+    muteBtn.addEventListener("click", () => {
+      if (!started || stopped) return;
+      muted = !muted;
+      audio.muted = muted;
+      muteBtn.textContent = muted ? "🔇 Muted" : "🔊 Sound on";
+    });
 
-    const endObserver = new IntersectionObserver(
+    /* 🛑 Stop audio at FINAL LINE */
+    const finalLine = document.getElementById("finalLine");
+
+    const stopObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && audioStarted && !audioStopped) {
-            audioStopped = true;
+          if (entry.isIntersecting && started && !stopped) {
+            stopped = true;
             let fade = setInterval(() => {
               if (audio.volume > 0.02) {
                 audio.volume -= 0.02;
@@ -184,16 +170,17 @@
                 clearInterval(fade);
                 audio.pause();
                 audio.currentTime = 0;
+                muteBtn.style.display = "none";
               }
             }, 120);
-            endObserver.disconnect();
+            stopObserver.disconnect();
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.9 }
     );
 
-    endObserver.observe(endSentinel);
+    stopObserver.observe(finalLine);
   </script>
 
 </body>
