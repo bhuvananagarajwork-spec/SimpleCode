@@ -1,104 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Get Well Soon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <title>Get Well Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-  .serif { font-family: 'Playfair Display', serif; }
-  .script { font-family: 'Dancing Script', cursive; }
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
-  /* Visual heartbeat */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(255,105,180,0.25), transparent 70%);
-    opacity: var(--beat, 0.3);
-    transition: opacity 0.25s ease;
-    z-index: -1;
-  }
+  <style>
+    .serif { font-family: 'Playfair Display', serif; }
+    .script { font-family: 'Dancing Script', cursive; }
 
-  /* Rose petals */
-  .petal {
-    position: fixed;
-    top: -10%;
-    width: 14px;
-    height: 20px;
-    background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
-    border-radius: 60% 40% 60% 40%;
-    opacity: 0.45;
-    animation: fall linear infinite;
-    z-index: -1;
-  }
+    /* Heartbeat background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,105,180,0.15), transparent 70%);
+      animation: heartbeat 6s ease-in-out infinite;
+      z-index: -1;
+    }
+    @keyframes heartbeat {
+      0%,100% { opacity: 0.35; }
+      50% { opacity: 0.6; }
+    }
 
-  @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(140vh) rotate(360deg); }
-  }
+    /* Rose petals */
+    .petal {
+      position: fixed;
+      top: -10%;
+      width: 14px;
+      height: 20px;
+      background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
+      border-radius: 60% 40% 60% 40%;
+      opacity: 0.4;
+      animation: fall linear infinite;
+      z-index: -1;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.5; }
+      100% { transform: translateY(140vh) rotate(360deg); opacity: 0; }
+    }
 
-  .petal-bed {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 90px;
-    background: linear-gradient(to top, rgba(231,84,128,0.35), transparent);
-  }
-</style>
+    /* Fade in on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease;
+    }
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 
-<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700 overflow-x-hidden">
+<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700">
 
-<div class="petal left-[10%]" style="animation-duration:30s;"></div>
-<div class="petal left-[30%]" style="animation-duration:34s;"></div>
-<div class="petal left-[50%]" style="animation-duration:32s;"></div>
-<div class="petal left-[70%]" style="animation-duration:36s;"></div>
+  <!-- Petals -->
+  <div class="petal left-[10%]" style="animation-duration:30s;"></div>
+  <div class="petal left-[30%]" style="animation-duration:34s; animation-delay:5s;"></div>
+  <div class="petal left-[50%]" style="animation-duration:32s; animation-delay:10s;"></div>
+  <div class="petal left-[70%]" style="animation-duration:36s; animation-delay:3s;"></div>
+  <div class="petal left-[85%]" style="animation-duration:38s; animation-delay:8s;"></div>
 
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <h1 class="serif text-4xl text-rose-700">
-    🤍 Get Well Soon, Ashok
-  </h1>
-</section>
+  <!-- Section 1 -->
+  <section class="min-h-screen flex items-center justify-center px-6 text-center">
+    <div class="max-w-2xl">
+      <h1 class="serif text-4xl text-rose-700 mb-8 reveal">
+        🤍 Get Well Soon, <span id="name">Ashok</span>
+      </h1>
+      <p class="script text-3xl reveal">
+        Scroll slowly ↓  
+      </p>
+    </div>
+  </section>
 
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <p class="script text-3xl">
-    Come here, love 🤍<br/>
-    rest your tired heart next to mine.
-  </p>
-</section>
+  <!-- Section 2 -->
+  <section class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-2xl space-y-8 text-center script text-3xl">
+      <p class="reveal">Come here, love 🤍</p>
+      <p class="reveal">rest your tired heart next to mine.</p>
+      <p class="reveal">If I could take the ache from your body,</p>
+      <p class="reveal">I would carry it quietly — without a sound.</p>
+    </div>
+  </section>
 
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <p class="script text-3xl">
-    Breathe slowly 🌸<br/>
-    I’m right here 🤗
-  </p>
-</section>
+  <!-- Section 3 -->
+  <section class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-2xl space-y-8 text-center script text-3xl">
+      <p class="reveal">Breathe slowly 🌸</p>
+      <p class="reveal">you don’t need to be strong right now.</p>
+      <p class="reveal">I’m right here 🤗</p>
+      <p class="reveal">in the pauses between your breaths.</p>
+    </div>
+  </section>
 
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <div>
-    <p class="script text-4xl mb-8">
-      Get well soon, Ashok 💞
-    </p>
-    <p class="serif text-xl text-rose-700">
-      🤍 Feel my heartbeat with you
-    </p>
-  </div>
-</section>
+  <!-- Section 4 -->
+  <section class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-2xl space-y-8 text-center script text-3xl">
+      <p class="reveal">Through night 🌙</p>
+      <p class="reveal">through dawn ☀️</p>
+      <p class="reveal">until your strength feels fully on ✨</p>
+    </div>
+  </section>
 
-<div class="petal-bed"></div>
+  <!-- Final -->
+  <section class="min-h-screen flex items-center justify-center px-6 text-center">
+    <div class="max-w-2xl">
+      <p class="script text-3xl reveal">
+        Get well soon, <span id="name2">Ashok</span> 😘
+      </p>
+      <p class="serif text-xl text-rose-600 mt-10 reveal">
+        🤗 I’m holding you in every heartbeat — always.
+      </p>
+    </div>
+  </section>
 
-<script>
-  // Heartbeat synced to scroll (iPhone safe)
-  window.addEventListener("scroll", () => {
-    const max = document.body.scrollHeight - innerHeight;
-    const progress = window.scrollY / max;
-    document.body.style.setProperty("--beat", 0.25 + progress * 0.45);
-  });
-</script>
+  <script>
+    const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
+    document.getElementById("name").textContent = name;
+    document.getElementById("name2").textContent = name;
+
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
