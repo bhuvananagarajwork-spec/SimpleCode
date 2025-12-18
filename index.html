@@ -15,18 +15,28 @@
   .serif { font-family: 'Playfair Display', serif; }
   .script { font-family: 'Dancing Script', cursive; }
 
-  /* Heartbeat background */
+  /* Heartbeat glow */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background: radial-gradient(circle at center, rgba(255,105,180,0.25), transparent 70%);
-    opacity: var(--beat, 0.3);
-    transition: opacity 0.2s linear;
+    opacity: 0.3;
+    transition: opacity 1.2s ease;
     z-index: -1;
   }
 
-  /* Rose petals */
+  /* Night fade */
+  body.night {
+    background: linear-gradient(to bottom, #1a1025, #2b163f);
+    color: #f5e9f2;
+  }
+
+  body.night::before {
+    opacity: 0.12;
+  }
+
+  /* Petals */
   .petal {
     position: fixed;
     top: -10%;
@@ -34,48 +44,46 @@
     height: 20px;
     background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
     border-radius: 60% 40% 60% 40%;
-    opacity: 0.45;
+    opacity: 0.4;
     animation: fall linear infinite;
     z-index: -1;
   }
 
   @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(120vh) rotate(360deg); }
+    to { transform: translateY(140vh) rotate(360deg); }
   }
 
-  /* Collected petals */
+  /* Petal bed */
   .petal-bed {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 80px;
-    background: linear-gradient(to top, rgba(231,84,128,0.35), transparent);
-    z-index: 0;
+    height: 90px;
+    background: linear-gradient(to top, rgba(231,84,128,0.4), transparent);
   }
 </style>
 </head>
 
-<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700 overflow-x-hidden">
+<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 overflow-x-hidden transition-colors duration-[2000ms]">
 
 <!-- Petals -->
-<div class="petal left-[10%]" style="animation-duration:28s;"></div>
-<div class="petal left-[25%]" style="animation-duration:32s;"></div>
-<div class="petal left-[40%]" style="animation-duration:30s;"></div>
-<div class="petal left-[60%]" style="animation-duration:34s;"></div>
-<div class="petal left-[80%]" style="animation-duration:36s;"></div>
+<div class="petal left-[12%]" style="animation-duration:30s;"></div>
+<div class="petal left-[28%]" style="animation-duration:34s;"></div>
+<div class="petal left-[45%]" style="animation-duration:32s;"></div>
+<div class="petal left-[65%]" style="animation-duration:36s;"></div>
+<div class="petal left-[82%]" style="animation-duration:38s;"></div>
 
-<!-- Section 1 -->
+<!-- SECTION 1 -->
 <section class="min-h-screen flex items-center justify-center text-center px-6">
   <div>
-    <h1 class="serif text-4xl text-rose-700 mb-8">
+    <h1 class="serif text-4xl mb-6">
       🤍 Get Well Soon, <span id="name">Ashok</span>
     </h1>
     <p class="script text-3xl">Scroll slowly ↓</p>
   </div>
 </section>
 
-<!-- Section 2 -->
+<!-- SECTION 2 -->
 <section class="min-h-screen flex items-center justify-center text-center px-6">
   <div class="script text-3xl space-y-6">
     <p>Come here, love 🤍</p>
@@ -85,7 +93,7 @@
   </div>
 </section>
 
-<!-- Section 3 -->
+<!-- SECTION 3 -->
 <section class="min-h-screen flex items-center justify-center text-center px-6">
   <div class="script text-3xl space-y-6">
     <p>Breathe slowly 🌸</p>
@@ -95,7 +103,7 @@
   </div>
 </section>
 
-<!-- Final Scroll-to-Hug -->
+<!-- FINAL HUG -->
 <section class="min-h-screen flex items-center justify-center text-center px-6">
   <div>
     <p class="script text-4xl mb-10">
@@ -103,42 +111,47 @@
     </p>
 
     <button id="hugBtn"
-      class="bg-rose-500 text-white px-8 py-4 rounded-full text-xl shadow-xl active:scale-95 transition">
-      🤍 Hold my hand
+      class="bg-rose-500 text-white px-10 py-5 rounded-full text-2xl shadow-xl active:scale-95 transition">
+      🤍 Hold me
     </button>
 
-    <p class="serif text-xl text-rose-700 mt-8">
-      (Feel my heartbeat with you 💓)
+    <p id="whisper" class="serif text-xl mt-10 opacity-0 transition-opacity duration-2000">
+      *I’m right here… feel my heartbeat with yours.*
     </p>
   </div>
 </section>
 
-<!-- Petal bed -->
 <div class="petal-bed"></div>
 
 <script>
-  // Name from URL
+  // Name
   const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
   document.getElementById("name").textContent = name;
   document.getElementById("name2").textContent = name;
 
-  // Heartbeat synced to scroll
-  window.addEventListener("scroll", () => {
-    const max = document.body.scrollHeight - innerHeight;
-    const progress = window.scrollY / max;
-    document.body.style.setProperty("--beat", 0.25 + progress * 0.4);
-  });
+  // HEARTBEAT VIBRATION (REAL BPM)
+  const hugBtn = document.getElementById("hugBtn");
+  let heartbeatInterval;
 
-  // Vibration heartbeat (requires tap)
-  let vibrating = false;
-  document.getElementById("hugBtn").addEventListener("click", () => {
-    if (!("vibrate" in navigator)) return;
-    if (vibrating) return;
-    vibrating = true;
+  hugBtn.addEventListener("click", () => {
+    if (!navigator.vibrate) {
+      alert("Vibration not supported on this device 🤍");
+      return;
+    }
 
-    setInterval(() => {
-      navigator.vibrate([120, 80, 120]); // heartbeat pattern
-    }, 1200);
+    // Immediate vibration (REQUIRED)
+    navigator.vibrate([120, 80, 120, 510]);
+
+    // Repeat heartbeat safely
+    heartbeatInterval = setInterval(() => {
+      navigator.vibrate([120, 80, 120, 510]);
+    }, 830); // ~72 BPM
+
+    // Fade to night
+    document.body.classList.add("night");
+
+    // Whisper
+    document.getElementById("whisper").classList.remove("opacity-0");
   });
 </script>
 
