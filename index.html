@@ -115,7 +115,7 @@
     </div>
   </section>
 
-  <!-- FINAL CONTENT -->
+  <!-- FINAL -->
   <section class="min-h-screen flex items-center justify-center px-6 text-center">
     <div class="max-w-3xl">
       <p class="script text-3xl md:text-4xl reveal">
@@ -127,6 +127,9 @@
     </div>
   </section>
 
+  <!-- 🔚 END SENTINEL (DO NOT STYLE / DO NOT REMOVE) -->
+  <div id="endSentinel" style="height: 1px;"></div>
+
   <script>
     /* Name from URL */
     const name =
@@ -136,7 +139,7 @@
 
     /* Reveal on scroll */
     const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
+    const revealObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -146,7 +149,7 @@
       },
       { threshold: 0.3 }
     );
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(el => revealObserver.observe(el));
 
     /* 💓 Heartbeat + Breath Audio */
     const audio = document.getElementById("heartbeatAudio");
@@ -155,10 +158,10 @@
 
     function startHeartbeat() {
       if (audioStarted || audioStopped) return;
-      audio.volume = 0.3; // start audible
+      audio.volume = 0.3;
       audio.play().then(() => {
         audioStarted = true;
-        audio.volume = 0.18; // soften
+        audio.volume = 0.18;
       }).catch(() => {});
     }
 
@@ -166,28 +169,31 @@
     window.addEventListener("click", startHeartbeat, { once: true });
     document.addEventListener("touchstart", startHeartbeat, { once: true });
 
-    /* 🛑 STOP AT END OF SCROLL */
-    function stopAtEnd() {
-      if (!audioStarted || audioStopped) return;
+    /* 🛑 STOP HEARTBEAT AT TRUE END */
+    const endSentinel = document.getElementById("endSentinel");
 
-      const scrollBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
-
-      if (scrollBottom) {
-        audioStopped = true;
-        let fade = setInterval(() => {
-          if (audio.volume > 0.02) {
-            audio.volume -= 0.02;
-          } else {
-            clearInterval(fade);
-            audio.pause();
-            audio.currentTime = 0;
+    const endObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && audioStarted && !audioStopped) {
+            audioStopped = true;
+            let fade = setInterval(() => {
+              if (audio.volume > 0.02) {
+                audio.volume -= 0.02;
+              } else {
+                clearInterval(fade);
+                audio.pause();
+                audio.currentTime = 0;
+              }
+            }, 120);
+            endObserver.disconnect();
           }
-        }, 120);
-      }
-    }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    window.addEventListener("scroll", stopAtEnd);
+    endObserver.observe(endSentinel);
   </script>
 
 </body>
