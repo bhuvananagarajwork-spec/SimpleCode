@@ -2,162 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Get Well Soon</title>
+  <title>Get Well Soon, Ashok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Handwritten Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
-    .handwritten {
-      font-family: 'Pacifico', cursive;
+    .handwritten { font-family: 'Pacifico', cursive; }
+    .romantic { font-family: 'Playfair Display', serif; }
+
+    /* Soft glow */
+    .glow {
+      box-shadow: 0 0 40px rgba(255, 120, 170, 0.45);
     }
 
-    /* Pulse animation for name */
-    .pulse-name {
+    /* Pulse for name */
+    .pulse {
       animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
     }
 
     /* Falling petals */
     .petal {
       position: absolute;
-      top: -20px;
-      width: 16px;
-      height: 16px;
-      background: radial-gradient(circle at 30% 30%, #ffb6c1, #e91e63);
+      bottom: -20px;
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle at 30% 30%, #ffc1d9, #ff5fa2);
       border-radius: 60% 40% 60% 40%;
-      opacity: 0.8;
-      animation: fall 8s linear infinite;
+      opacity: 0.7;
+      animation: float 10s linear infinite;
     }
 
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% { opacity: 1; }
-      100% {
-        transform: translateY(120vh) rotate(360deg);
-        opacity: 0;
-      }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
     }
 
-    /* Glow & sparkles */
-    .glow {
-      box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: white;
-      border-radius: 50%;
-      animation: sparkle 3s infinite ease-in-out;
-      opacity: 0;
-    }
-
-    @keyframes sparkle {
-      0% { opacity: 0; transform: scale(0); }
-      50% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0); }
-    }
-
-    /* CSS flowers */
+    /* Flowers at bottom */
     .flower {
-      width: 70px;
-      height: 70px;
-      background: radial-gradient(circle at 30% 30%, #ff8fab, #e91e63);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #ff9acb, #ff4f93);
       border-radius: 50%;
       position: relative;
-      animation: bloom 2.5s ease-in-out infinite alternate;
     }
-
     .flower::after {
       content: "";
       position: absolute;
-      width: 16px;
-      height: 60px;
+      width: 12px;
+      height: 45px;
       background: #4caf50;
-      bottom: -55px;
+      bottom: -42px;
       left: 50%;
       transform: translateX(-50%);
       border-radius: 10px;
     }
-
-    @keyframes bloom {
-      from { transform: scale(1); }
-      to { transform: scale(1.08); }
-    }
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 to-pink-200">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 via-pink-200 to-rose-200">
 
-  <!-- Story Card -->
-  <div class="relative w-[360px] h-[640px] bg-white/90 rounded-[32px] glow shadow-2xl px-6 py-10 text-center overflow-hidden">
+  <!-- Card -->
+  <div class="relative w-[360px] h-[640px] bg-white/95 rounded-[36px] glow px-6 py-10 text-center overflow-hidden">
 
     <!-- Title -->
-    <h1 class="text-2xl font-semibold text-pink-600 mb-4">
+    <h1 class="romantic text-2xl text-rose-600 mb-4">
       Get Well Soon,
-      <span id="name" class="pulse-name inline-block text-pink-700">Ashok</span> 💗
+      <span id="name" class="pulse text-rose-700">Ashok</span> 💖
     </h1>
 
     <!-- Message -->
-    <p class="handwritten text-2xl text-gray-700 mb-6">
+    <p class="handwritten text-2xl text-gray-700 leading-snug mb-6">
       Get well soon,
-      <span id="name2" class="pulse-name text-pink-600">Ashok</span>,<br/>
-      I love you so much
+      <span id="name2" class="pulse text-rose-600">Ashok</span> 🤍<br/>
+      I love you so much 😘
     </p>
 
-    <!-- Bouquet -->
-    <div class="flex justify-center gap-5 my-6">
+    <!-- Hugs & kisses -->
+    <p class="text-lg text-rose-500 mb-6">
+      Sending you the biggest hugs 🤗<br/>
+      and sweetest kisses 💋
+    </p>
+
+    <!-- Flowers -->
+    <div class="flex justify-center gap-6 my-8">
       <div class="flower"></div>
       <div class="flower"></div>
       <div class="flower"></div>
     </div>
 
-    <p class="handwritten text-lg text-pink-600">
+    <p class="handwritten text-lg text-rose-600">
       Each flower carries love,<br/>
-      strength, and healing
+      strength, and healing 🌸
     </p>
 
     <!-- Signature -->
-    <p class="mt-6 text-sm text-pink-600">
+    <p class="mt-8 text-sm text-rose-500">
       — Always with love, for <span id="name3">Ashok</span> 💌
     </p>
 
-    <!-- Sparkles -->
-    <span class="sparkle left-[20%] top-[20%]"></span>
-    <span class="sparkle left-[70%] top-[30%]" style="animation-delay:1s"></span>
-    <span class="sparkle left-[40%] top-[60%]" style="animation-delay:2s"></span>
-
-    <!-- Falling petals -->
+    <!-- Petals -->
     <div class="absolute inset-0 pointer-events-none">
       <div class="petal left-[10%]" style="animation-delay:0s"></div>
-      <div class="petal left-[30%]" style="animation-delay:2s"></div>
-      <div class="petal left-[50%]" style="animation-delay:4s"></div>
-      <div class="petal left-[70%]" style="animation-delay:1s"></div>
-      <div class="petal left-[90%]" style="animation-delay:3s"></div>
+      <div class="petal left-[30%]" style="animation-delay:3s"></div>
+      <div class="petal left-[55%]" style="animation-delay:6s"></div>
+      <div class="petal left-[75%]" style="animation-delay:2s"></div>
     </div>
-
   </div>
 
-  <!-- Editable name via URL -->
+  <!-- Editable Name -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const name = params.get("name") || "Ashok";
-    document.getElementById("name").textContent = name;
-    document.getElementById("name2").textContent = name;
-    document.getElementById("name3").textContent = name;
+    const n = new URLSearchParams(window.location.search).get("name") || "Ashok";
+    ["name","name2","name3"].forEach(id => document.getElementById(id).textContent = n);
   </script>
 
 </body>
