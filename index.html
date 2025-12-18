@@ -1,121 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Get Well Soon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<title>Get Well Soon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
-  <style>
-    .serif { font-family: 'Playfair Display', serif; }
-    .script { font-family: 'Dancing Script', cursive; }
+<style>
+  .serif { font-family: 'Playfair Display', serif; }
+  .script { font-family: 'Dancing Script', cursive; }
 
-    /* Rose petals */
-    .petal {
-      position: absolute;
-      top: -10%;
-      width: 16px;
-      height: 22px;
-      background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
-      border-radius: 60% 40% 60% 40%;
-      opacity: 0.6;
-      animation: fall linear infinite;
-    }
+  /* Heartbeat background */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,105,180,0.25), transparent 70%);
+    opacity: var(--beat, 0.3);
+    transition: opacity 0.2s linear;
+    z-index: -1;
+  }
 
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      15% { opacity: 0.6; }
-      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
-    }
-  </style>
+  /* Rose petals */
+  .petal {
+    position: fixed;
+    top: -10%;
+    width: 14px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
+    border-radius: 60% 40% 60% 40%;
+    opacity: 0.45;
+    animation: fall linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(120vh) rotate(360deg); }
+  }
+
+  /* Collected petals */
+  .petal-bed {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to top, rgba(231,84,128,0.35), transparent);
+    z-index: 0;
+  }
+</style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 overflow-hidden">
+<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700 overflow-x-hidden">
 
-  <!-- Petals -->
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="petal left-[10%]" style="animation-duration:22s;"></div>
-    <div class="petal left-[25%]" style="animation-duration:26s; animation-delay:3s;"></div>
-    <div class="petal left-[40%]" style="animation-duration:24s; animation-delay:6s;"></div>
-    <div class="petal left-[55%]" style="animation-duration:28s; animation-delay:2s;"></div>
-    <div class="petal left-[70%]" style="animation-duration:30s; animation-delay:5s;"></div>
-    <div class="petal left-[85%]" style="animation-duration:32s; animation-delay:7s;"></div>
+<!-- Petals -->
+<div class="petal left-[10%]" style="animation-duration:28s;"></div>
+<div class="petal left-[25%]" style="animation-duration:32s;"></div>
+<div class="petal left-[40%]" style="animation-duration:30s;"></div>
+<div class="petal left-[60%]" style="animation-duration:34s;"></div>
+<div class="petal left-[80%]" style="animation-duration:36s;"></div>
+
+<!-- Section 1 -->
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <div>
+    <h1 class="serif text-4xl text-rose-700 mb-8">
+      🤍 Get Well Soon, <span id="name">Ashok</span>
+    </h1>
+    <p class="script text-3xl">Scroll slowly ↓</p>
   </div>
+</section>
 
-  <!-- Content -->
-  <main class="relative z-10 flex items-center justify-center min-h-screen px-6">
-    <div class="max-w-2xl text-center text-gray-700">
+<!-- Section 2 -->
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <div class="script text-3xl space-y-6">
+    <p>Come here, love 🤍</p>
+    <p>rest your tired heart next to mine.</p>
+    <p>If I could take your pain,</p>
+    <p>I’d carry it quietly for you 😘</p>
+  </div>
+</section>
 
-      <!-- Title -->
-      <h1 class="serif text-3xl md:text-4xl text-rose-700 mb-10">
-        💗 Get Well Soon, <span id="name">Ashok</span> 💗
-      </h1>
+<!-- Section 3 -->
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <div class="script text-3xl space-y-6">
+    <p>Breathe slowly 🌸</p>
+    <p>You don’t need to be strong.</p>
+    <p>I’m right here 🤗</p>
+    <p>in every pause, every beat.</p>
+  </div>
+</section>
 
-      <!-- Poem (typed line by line) -->
-      <div id="poem" class="script text-2xl md:text-3xl leading-relaxed space-y-4"></div>
+<!-- Final Scroll-to-Hug -->
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <div>
+    <p class="script text-4xl mb-10">
+      Get well soon, <span id="name2">Ashok</span> 💞
+    </p>
 
-      <!-- Closing -->
-      <p id="closing" class="serif text-lg text-rose-600 mt-12 opacity-0">
-        🤗 Wrapped in my hugs, 😘 kissed with all my love —
-        always yours 💞
-      </p>
+    <button id="hugBtn"
+      class="bg-rose-500 text-white px-8 py-4 rounded-full text-xl shadow-xl active:scale-95 transition">
+      🤍 Hold my hand
+    </button>
 
-    </div>
-  </main>
+    <p class="serif text-xl text-rose-700 mt-8">
+      (Feel my heartbeat with you 💓)
+    </p>
+  </div>
+</section>
 
-  <script>
-    const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
-    document.getElementById("name").textContent = name;
+<!-- Petal bed -->
+<div class="petal-bed"></div>
 
-    const lines = [
-      `If love could heal, you’d be whole today 💖`,
-      `because every heartbeat of mine walks your way 💓`,
-      ``,
-      `I’d hold your pain and let you rest 🤍`,
-      `kiss your worries softly away 😘`,
-      ``,
-      `So take your time, my love 🌸`,
-      `breathe slowly, heal gently 🤗`,
-      ``,
-      `I’m right here — through night and dawn 🌙☀️`,
-      `until your strength feels fully on ✨`,
-      ``,
-      `Get well soon, ${name} 💞`
-    ];
+<script>
+  // Name from URL
+  const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
+  document.getElementById("name").textContent = name;
+  document.getElementById("name2").textContent = name;
 
-    const poem = document.getElementById("poem");
-    let i = 0;
+  // Heartbeat synced to scroll
+  window.addEventListener("scroll", () => {
+    const max = document.body.scrollHeight - innerHeight;
+    const progress = window.scrollY / max;
+    document.body.style.setProperty("--beat", 0.25 + progress * 0.4);
+  });
 
-    function typeLine() {
-      if (i >= lines.length) {
-        document.getElementById("closing").classList.remove("opacity-0");
-        return;
-      }
+  // Vibration heartbeat (requires tap)
+  let vibrating = false;
+  document.getElementById("hugBtn").addEventListener("click", () => {
+    if (!("vibrate" in navigator)) return;
+    if (vibrating) return;
+    vibrating = true;
 
-      const line = document.createElement("div");
-      poem.appendChild(line);
-
-      let j = 0;
-      const text = lines[i];
-
-      const interval = setInterval(() => {
-        line.textContent += text[j] || "";
-        j++;
-        if (j > text.length) {
-          clearInterval(interval);
-          i++;
-          setTimeout(typeLine, 700);
-        }
-      }, 35);
-    }
-
-    typeLine();
-  </script>
+    setInterval(() => {
+      navigator.vibrate([120, 80, 120]); // heartbeat pattern
+    }, 1200);
+  });
+</script>
 
 </body>
 </html>
