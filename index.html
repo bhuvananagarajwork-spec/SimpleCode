@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Get Well Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Handwritten Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    .handwritten {
+      font-family: 'Pacifico', cursive;
+    }
+
+    /* Pulse animation for name */
+    .pulse-name {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    /* Falling petals */
+    .petal {
+      position: absolute;
+      top: -20px;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 30% 30%, #ffb6c1, #e91e63);
+      border-radius: 60% 40% 60% 40%;
+      opacity: 0.8;
+      animation: fall 8s linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Glow & sparkles */
+    .glow {
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 3s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0); }
+    }
+
+    /* CSS flowers */
+    .flower {
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle at 30% 30%, #ff8fab, #e91e63);
+      border-radius: 50%;
+      position: relative;
+      animation: bloom 2.5s ease-in-out infinite alternate;
+    }
+
+    .flower::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 60px;
+      background: #4caf50;
+      bottom: -55px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 10px;
+    }
+
+    @keyframes bloom {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 to-pink-200">
+
+  <!-- Story Card -->
+  <div class="relative w-[360px] h-[640px] bg-white/90 rounded-[32px] glow shadow-2xl px-6 py-10 text-center overflow-hidden">
+
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold text-pink-600 mb-4">
+      Get Well Soon,
+      <span id="name" class="pulse-name inline-block text-pink-700">Ashok</span> 💗
+    </h1>
+
+    <!-- Message -->
+    <p class="handwritten text-2xl text-gray-700 mb-6">
+      Get well soon,
+      <span id="name2" class="pulse-name text-pink-600">Ashok</span>,<br/>
+      I love you so much
+    </p>
+
+    <!-- Bouquet -->
+    <div class="flex justify-center gap-5 my-6">
+      <div class="flower"></div>
+      <div class="flower"></div>
+      <div class="flower"></div>
+    </div>
+
+    <p class="handwritten text-lg text-pink-600">
+      Each flower carries love,<br/>
+      strength, and healing
+    </p>
+
+    <!-- Signature -->
+    <p class="mt-6 text-sm text-pink-600">
+      — Always with love, for <span id="name3">Ashok</span> 💌
+    </p>
+
+    <!-- Sparkles -->
+    <span class="sparkle left-[20%] top-[20%]"></span>
+    <span class="sparkle left-[70%] top-[30%]" style="animation-delay:1s"></span>
+    <span class="sparkle left-[40%] top-[60%]" style="animation-delay:2s"></span>
+
+    <!-- Falling petals -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="petal left-[10%]" style="animation-delay:0s"></div>
+      <div class="petal left-[30%]" style="animation-delay:2s"></div>
+      <div class="petal left-[50%]" style="animation-delay:4s"></div>
+      <div class="petal left-[70%]" style="animation-delay:1s"></div>
+      <div class="petal left-[90%]" style="animation-delay:3s"></div>
+    </div>
+
+  </div>
+
+  <!-- Editable name via URL -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name") || "Ashok";
+    document.getElementById("name").textContent = name;
+    document.getElementById("name2").textContent = name;
+    document.getElementById("name3").textContent = name;
+  </script>
+
+</body>
+</html>
