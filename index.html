@@ -12,17 +12,42 @@
     .serif { font-family: 'Playfair Display', serif; }
     .script { font-family: 'Dancing Script', cursive; }
 
+    /* Soft romantic glow */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle, rgba(255,105,180,0.12), transparent 70%);
+      background:
+        radial-gradient(circle at center, rgba(255,0,0,0.10), transparent 70%);
+      z-index: -2;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      top: -10%;
+      font-size: 18px;
+      opacity: 0.35;
+      animation: floatDown linear infinite;
       z-index: -1;
     }
 
+    @keyframes floatDown {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0;
+      }
+      20% { opacity: 0.35; }
+      100% {
+        transform: translateY(140vh) translateX(30px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* Reveal animation */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(24px);
       transition: all 1.4s ease;
     }
     .reveal.show {
@@ -32,35 +57,59 @@
   </style>
 </head>
 
-<body class="bg-gradient-to-b from-rose-200 via-pink-100 to-rose-50 text-gray-700 overflow-x-hidden">
+<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700 overflow-x-hidden">
+
+  <!-- ❤️ Floating Hearts -->
+  <div class="heart left-[10%]" style="animation-duration:30s;">❤️</div>
+  <div class="heart left-[25%]" style="animation-duration:34s; animation-delay:6s;">💖</div>
+  <div class="heart left-[45%]" style="animation-duration:32s; animation-delay:12s;">❤️</div>
+  <div class="heart left-[65%]" style="animation-duration:36s; animation-delay:4s;">💘</div>
+  <div class="heart left-[80%]" style="animation-duration:38s; animation-delay:10s;">❤️</div>
 
   <!-- AUDIO -->
   <audio id="heartbeatAudio" preload="auto" loop playsinline>
     <source src="heartbeat.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- CONTENT -->
+  <!-- INTRO -->
   <section class="min-h-screen flex items-center justify-center text-center px-6">
     <div>
-      <h1 class="serif text-5xl text-rose-700 reveal">
-        🤍 Get Well Soon, <span id="name">Ashok 💓</span>
+      <h1 class="serif text-5xl text-red-700 reveal">
+        ❤️ Get Well Soon, <span id="name">Ashok</span>
       </h1>
-      <p class="script text-3xl mt-6 reveal">Scroll slowly ↓</p>
+      <p class="script text-3xl mt-6 reveal text-red-600">
+        Scroll slowly ↓
+      </p>
     </div>
   </section>
 
+  <!-- POEM 1 -->
   <section class="min-h-screen flex items-center justify-center text-center px-6">
-    <div class="script text-4xl space-y-10">
-      <p class="reveal">Come closer, love 💓</p>
-      <p class="reveal">rest your tired heart beside mine.</p>
-      <p class="reveal">You don’t have to be strong right now.</p>
+    <div class="script text-4xl space-y-10 max-w-3xl">
+      <p class="reveal">Come closer, my love ❤️</p>
+      <p class="reveal">let the world fade just for a moment.</p>
+      <p class="reveal">You’ve been so strong for so long,</p>
+      <p class="reveal">now it’s okay to rest in my heart.</p>
     </div>
   </section>
 
+  <!-- POEM 2 -->
   <section class="min-h-screen flex items-center justify-center text-center px-6">
-    <div class="script text-4xl space-y-10">
-      <p class="reveal">Breathe gently 🌸</p>
-      <p class="reveal">I’m holding the quiet for you.</p>
+    <div class="script text-4xl space-y-10 max-w-3xl">
+      <p class="reveal">Breathe slowly 💞</p>
+      <p class="reveal">feel my love wrap around you.</p>
+      <p class="reveal">Every beat you hear,</p>
+      <p class="reveal">is me whispering: you’re not alone.</p>
+    </div>
+  </section>
+
+  <!-- POEM 3 -->
+  <section class="min-h-screen flex items-center justify-center text-center px-6">
+    <div class="script text-4xl space-y-10 max-w-3xl">
+      <p class="reveal">If healing takes time,</p>
+      <p class="reveal">I’ll give you all of mine ❤️</p>
+      <p class="reveal">If your smile feels far away,</p>
+      <p class="reveal">I’ll wait… right here… with you.</p>
     </div>
   </section>
 
@@ -68,40 +117,40 @@
   <section class="min-h-screen flex items-center justify-center text-center px-6">
     <div>
       <p id="finalLine" class="script text-4xl reveal">
-        Get well soon, <span id="name2">Ashok</span> 😘
+        Get well soon, <span id="name2">Ashok</span> 💖
       </p>
-      <p class="serif text-2xl text-rose-600 mt-10 reveal">
-        🤗 Always with you — even in silence.
+      <p class="serif text-2xl text-red-600 mt-10 reveal">
+        Always loved. Always held. Always yours ❤️
       </p>
     </div>
   </section>
 
-  <!-- MUTE BUTTON -->
+  <!-- 🔊 MUTE BUTTON -->
   <button
     id="muteBtn"
     class="fixed bottom-6 left-1/2 -translate-x-1/2
-           bg-white/70 backdrop-blur-md
+           bg-white/80 backdrop-blur-md
            px-5 py-2 rounded-full shadow-lg
-           text-rose-600 text-sm serif"
+           text-red-600 text-sm serif"
   >
     🔊 Sound on
   </button>
 
   <script>
-    /* NAME */
+    /* Name */
     const name =
       new URLSearchParams(window.location.search).get("name") || "Ashok";
     document.getElementById("name").textContent = name;
     document.getElementById("name2").textContent = name;
 
-    /* REVEAL */
-    const revealObserver = new IntersectionObserver(
+    /* Reveal */
+    const observer = new IntersectionObserver(
       entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("show")),
       { threshold: 0.3 }
     );
-    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
-    /* AUDIO CORE */
+    /* Audio */
     const audio = document.getElementById("heartbeatAudio");
     const muteBtn = document.getElementById("muteBtn");
 
@@ -109,48 +158,42 @@
     let stopped = false;
     let muted = false;
 
-    function startAudioOnce() {
+    function startAudio() {
       if (started || stopped) return;
       audio.volume = 0.25;
-      audio.play().then(() => {
-        started = true;
-      }).catch(() => {});
+      audio.play().then(() => started = true).catch(() => {});
     }
 
-    document.addEventListener("touchstart", startAudioOnce, { once: true });
-    document.addEventListener("click", startAudioOnce, { once: true });
-    window.addEventListener("scroll", startAudioOnce, { once: true });
+    document.addEventListener("touchstart", startAudio, { once: true });
+    document.addEventListener("click", startAudio, { once: true });
+    window.addEventListener("scroll", startAudio, { once: true });
 
-    /* 🔊 MUTE TOGGLE (FIXED) */
     muteBtn.addEventListener("click", () => {
       muted = !muted;
       audio.muted = muted;
       muteBtn.textContent = muted ? "🔇 Muted" : "🔊 Sound on";
     });
 
-    /* 💓 SCROLL-BASED FADE + STOP */
-    function handleScrollAudio() {
+    function fadeWithScroll() {
       if (!started || stopped) return;
 
-      const scrollTop = window.scrollY;
-      const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const progress = Math.min(scrollTop / scrollHeight, 1);
+      const progress = Math.min(
+        window.scrollY / (document.body.scrollHeight - window.innerHeight),
+        1
+      );
 
-      // Volume fades from 0.25 → 0.02
       audio.volume = Math.max(0.02, 0.25 * (1 - progress));
 
-      // Stop at very end
       if (progress >= 0.98) {
         stopped = true;
-        audio.volume = 0;
         audio.pause();
         audio.currentTime = 0;
         muteBtn.style.display = "none";
-        window.removeEventListener("scroll", handleScrollAudio);
+        window.removeEventListener("scroll", fadeWithScroll);
       }
     }
 
-    window.addEventListener("scroll", handleScrollAudio);
+    window.addEventListener("scroll", fadeWithScroll);
   </script>
 
 </body>
