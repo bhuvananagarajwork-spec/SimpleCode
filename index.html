@@ -5,35 +5,25 @@
   <title>Get Well Soon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
   <style>
     .serif { font-family: 'Playfair Display', serif; }
     .script { font-family: 'Dancing Script', cursive; }
 
-    /* Soft heartbeat glow */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(255,105,180,0.12), transparent 70%);
-      animation: glow 8s ease-in-out infinite;
+      background: radial-gradient(circle, rgba(255,105,180,0.12), transparent 70%);
       z-index: -1;
     }
-    @keyframes glow {
-      0%,100% { opacity: 0.25; }
-      50% { opacity: 0.45; }
-    }
 
-    /* Reveal animation */
     .reveal {
       opacity: 0;
       transform: translateY(28px);
-      transition: all 1.6s ease;
+      transition: all 1.4s ease;
     }
     .reveal.show {
       opacity: 1;
@@ -44,89 +34,74 @@
 
 <body class="bg-gradient-to-b from-rose-200 via-pink-100 to-rose-50 text-gray-700 overflow-x-hidden">
 
-  <!-- 💓 Heartbeat + Breath Audio -->
+  <!-- AUDIO -->
   <audio id="heartbeatAudio" preload="auto" loop playsinline>
     <source src="heartbeat.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- SECTION 1 -->
-  <section class="min-h-screen flex items-center justify-center px-6 text-center">
-    <div class="max-w-3xl">
-      <h1 class="serif text-4xl md:text-5xl text-rose-700 mb-12 reveal">
-        🤍 Get Well Soon, <span id="name">Ashok</span>
+  <!-- CONTENT -->
+  <section class="min-h-screen flex items-center justify-center text-center px-6">
+    <div>
+      <h1 class="serif text-5xl text-rose-700 reveal">
+        🤍 Get Well Soon, <span id="name">Ashok 💓</span>
       </h1>
-      <p class="script text-2xl md:text-3xl reveal text-rose-600">
-        Take this slowly… let the words find you ↓
-      </p>
+      <p class="script text-3xl mt-6 reveal">Scroll slowly ↓</p>
     </div>
   </section>
 
-  <!-- SECTION 2 -->
-  <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
-      <p class="reveal">Come closer, love 🤍</p>
+  <section class="min-h-screen flex items-center justify-center text-center px-6">
+    <div class="script text-4xl space-y-10">
+      <p class="reveal">Come closer, love 💓</p>
       <p class="reveal">rest your tired heart beside mine.</p>
-      <p class="reveal">You don’t have to carry everything alone,</p>
-      <p class="reveal">not tonight… not ever.</p>
+      <p class="reveal">You don’t have to be strong right now.</p>
     </div>
   </section>
 
-  <!-- SECTION 3 -->
-  <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
+  <section class="min-h-screen flex items-center justify-center text-center px-6">
+    <div class="script text-4xl space-y-10">
       <p class="reveal">Breathe gently 🌸</p>
-      <p class="reveal">let the noise soften, let the rush fade.</p>
-      <p class="reveal">I’m right here 🤗</p>
-      <p class="reveal">holding the quiet for you.</p>
+      <p class="reveal">I’m holding the quiet for you.</p>
     </div>
   </section>
 
-  <!-- FINAL SECTION -->
-  <section class="min-h-screen flex items-center justify-center px-6 text-center">
-    <div class="max-w-3xl">
-      <p id="finalLine" class="script text-3xl md:text-4xl reveal">
+  <!-- FINAL -->
+  <section class="min-h-screen flex items-center justify-center text-center px-6">
+    <div>
+      <p id="finalLine" class="script text-4xl reveal">
         Get well soon, <span id="name2">Ashok</span> 😘
       </p>
-      <p class="serif text-xl md:text-2xl text-rose-600 mt-14 reveal">
-        🤗 Always near, always yours — even in silence.
+      <p class="serif text-2xl text-rose-600 mt-10 reveal">
+        🤗 Always with you — even in silence.
       </p>
     </div>
   </section>
 
-  <!-- 🔈 Mute Button -->
+  <!-- MUTE BUTTON -->
   <button
     id="muteBtn"
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 
-           bg-white/70 backdrop-blur-md 
-           px-5 py-2 rounded-full shadow-lg 
-           text-rose-600 text-sm serif
-           transition hover:scale-105 active:scale-95"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2
+           bg-white/70 backdrop-blur-md
+           px-5 py-2 rounded-full shadow-lg
+           text-rose-600 text-sm serif"
   >
     🔊 Sound on
   </button>
 
   <script>
-    /* Name from URL */
+    /* NAME */
     const name =
       new URLSearchParams(window.location.search).get("name") || "Ashok";
     document.getElementById("name").textContent = name;
     document.getElementById("name2").textContent = name;
 
-    /* Reveal on scroll */
-    const reveals = document.querySelectorAll(".reveal");
+    /* REVEAL */
     const revealObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("show");
-          }
-        });
-      },
+      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("show")),
       { threshold: 0.3 }
     );
-    reveals.forEach(el => revealObserver.observe(el));
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
-    /* 💓 Heartbeat Audio */
+    /* AUDIO CORE */
     const audio = document.getElementById("heartbeatAudio");
     const muteBtn = document.getElementById("muteBtn");
 
@@ -134,53 +109,48 @@
     let stopped = false;
     let muted = false;
 
-    function startAudio() {
+    function startAudioOnce() {
       if (started || stopped) return;
       audio.volume = 0.25;
       audio.play().then(() => {
         started = true;
-        audio.volume = 0.15;
       }).catch(() => {});
     }
 
-    document.addEventListener("touchstart", startAudio, { once: true });
-    document.addEventListener("click", startAudio, { once: true });
-    window.addEventListener("scroll", startAudio, { once: true });
+    document.addEventListener("touchstart", startAudioOnce, { once: true });
+    document.addEventListener("click", startAudioOnce, { once: true });
+    window.addEventListener("scroll", startAudioOnce, { once: true });
 
-    /* 🔇 Mute toggle */
+    /* 🔊 MUTE TOGGLE (FIXED) */
     muteBtn.addEventListener("click", () => {
-      if (!started || stopped) return;
       muted = !muted;
       audio.muted = muted;
       muteBtn.textContent = muted ? "🔇 Muted" : "🔊 Sound on";
     });
 
-    /* 🛑 Stop audio at FINAL LINE */
-    const finalLine = document.getElementById("finalLine");
+    /* 💓 SCROLL-BASED FADE + STOP */
+    function handleScrollAudio() {
+      if (!started || stopped) return;
 
-    const stopObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && started && !stopped) {
-            stopped = true;
-            let fade = setInterval(() => {
-              if (audio.volume > 0.02) {
-                audio.volume -= 0.02;
-              } else {
-                clearInterval(fade);
-                audio.pause();
-                audio.currentTime = 0;
-                muteBtn.style.display = "none";
-              }
-            }, 120);
-            stopObserver.disconnect();
-          }
-        });
-      },
-      { threshold: 0.9 }
-    );
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollTop / scrollHeight, 1);
 
-    stopObserver.observe(finalLine);
+      // Volume fades from 0.25 → 0.02
+      audio.volume = Math.max(0.02, 0.25 * (1 - progress));
+
+      // Stop at very end
+      if (progress >= 0.98) {
+        stopped = true;
+        audio.volume = 0;
+        audio.pause();
+        audio.currentTime = 0;
+        muteBtn.style.display = "none";
+        window.removeEventListener("scroll", handleScrollAudio);
+      }
+    }
+
+    window.addEventListener("scroll", handleScrollAudio);
   </script>
 
 </body>
