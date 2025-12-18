@@ -8,21 +8,12 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Romantic Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
   <style>
     .serif { font-family: 'Playfair Display', serif; }
     .script { font-family: 'Dancing Script', cursive; }
-
-    /* Card breathing */
-    .breathe {
-      animation: breathe 8s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
 
     /* Rose petals */
     .petal {
@@ -32,9 +23,10 @@
       height: 22px;
       background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
       border-radius: 60% 40% 60% 40%;
-      opacity: 0.5;
+      opacity: 0.6;
       animation: fall linear infinite;
     }
+
     @keyframes fall {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
       15% { opacity: 0.6; }
@@ -43,84 +35,86 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-rose-200 via-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
+<body class="min-h-screen bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 overflow-hidden">
 
   <!-- Petals -->
   <div class="absolute inset-0 pointer-events-none">
     <div class="petal left-[10%]" style="animation-duration:22s;"></div>
-    <div class="petal left-[30%]" style="animation-duration:26s; animation-delay:3s;"></div>
-    <div class="petal left-[50%]" style="animation-duration:24s; animation-delay:6s;"></div>
-    <div class="petal left-[70%]" style="animation-duration:28s; animation-delay:2s;"></div>
-    <div class="petal left-[85%]" style="animation-duration:30s; animation-delay:5s;"></div>
+    <div class="petal left-[25%]" style="animation-duration:26s; animation-delay:3s;"></div>
+    <div class="petal left-[40%]" style="animation-duration:24s; animation-delay:6s;"></div>
+    <div class="petal left-[55%]" style="animation-duration:28s; animation-delay:2s;"></div>
+    <div class="petal left-[70%]" style="animation-duration:30s; animation-delay:5s;"></div>
+    <div class="petal left-[85%]" style="animation-duration:32s; animation-delay:7s;"></div>
   </div>
 
-  <!-- Letter Card -->
-  <div class="relative w-[360px] h-[640px] bg-white/95 rounded-[32px] shadow-2xl px-8 py-12 text-center breathe z-10">
+  <!-- Content -->
+  <main class="relative z-10 flex items-center justify-center min-h-screen px-6">
+    <div class="max-w-2xl text-center text-gray-700">
 
-    <!-- Title -->
-    <h1 class="serif text-2xl text-rose-700 mb-8">
-      Get Well Soon, <span id="name">Ashok</span>
-    </h1>
+      <!-- Title -->
+      <h1 class="serif text-3xl md:text-4xl text-rose-700 mb-10">
+        💗 Get Well Soon, <span id="name">Ashok</span> 💗
+      </h1>
 
-    <!-- Poem container -->
-    <div id="poem" class="script text-2xl text-gray-700 leading-relaxed space-y-4"></div>
+      <!-- Poem (typed line by line) -->
+      <div id="poem" class="script text-2xl md:text-3xl leading-relaxed space-y-4"></div>
 
-    <!-- Signature -->
-    <p id="signature" class="serif text-sm text-rose-600 mt-12 opacity-0">
-      Always with you,<br/>
-      wrapped in hugs 🤍 and kisses 💋
-    </p>
-  </div>
+      <!-- Closing -->
+      <p id="closing" class="serif text-lg text-rose-600 mt-12 opacity-0">
+        🤗 Wrapped in my hugs, 😘 kissed with all my love —
+        always yours 💞
+      </p>
+
+    </div>
+  </main>
 
   <script>
     const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
     document.getElementById("name").textContent = name;
 
-    const poemLines = [
-      `If love could heal, you’d be whole today,`,
-      `because every heartbeat of mine walks your way.`,
-      `I’d hold your pain and let you rest,`,
-      `kiss your worries from your chest.`,
+    const lines = [
+      `If love could heal, you’d be whole today 💖`,
+      `because every heartbeat of mine walks your way 💓`,
       ``,
-      `So take your time, my love, be still,`,
-      `let every breath rebuild your will.`,
-      `I’m right here — through night and dawn,`,
-      `until your strength feels fully on.`,
+      `I’d hold your pain and let you rest 🤍`,
+      `kiss your worries softly away 😘`,
       ``,
-      `Get well soon, ${name}, softly and true,`,
-      `my heart is always waiting for you.`
+      `So take your time, my love 🌸`,
+      `breathe slowly, heal gently 🤗`,
+      ``,
+      `I’m right here — through night and dawn 🌙☀️`,
+      `until your strength feels fully on ✨`,
+      ``,
+      `Get well soon, ${name} 💞`
     ];
 
-    const poemDiv = document.getElementById("poem");
-    let lineIndex = 0;
+    const poem = document.getElementById("poem");
+    let i = 0;
 
-    function typeLine(text, callback) {
-      const line = document.createElement("div");
-      poemDiv.appendChild(line);
-      let charIndex = 0;
-
-      const typing = setInterval(() => {
-        line.textContent += text[charIndex] || "";
-        charIndex++;
-        if (charIndex > text.length) {
-          clearInterval(typing);
-          setTimeout(callback, 800);
-        }
-      }, 40);
-    }
-
-    function startPoem() {
-      if (lineIndex < poemLines.length) {
-        typeLine(poemLines[lineIndex], () => {
-          lineIndex++;
-          startPoem();
-        });
-      } else {
-        document.getElementById("signature").classList.remove("opacity-0");
+    function typeLine() {
+      if (i >= lines.length) {
+        document.getElementById("closing").classList.remove("opacity-0");
+        return;
       }
+
+      const line = document.createElement("div");
+      poem.appendChild(line);
+
+      let j = 0;
+      const text = lines[i];
+
+      const interval = setInterval(() => {
+        line.textContent += text[j] || "";
+        j++;
+        if (j > text.length) {
+          clearInterval(interval);
+          i++;
+          setTimeout(typeLine, 700);
+        }
+      }, 35);
     }
 
-    startPoem();
+    typeLine();
   </script>
 
 </body>
