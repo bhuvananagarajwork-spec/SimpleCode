@@ -15,43 +15,43 @@
     .serif { font-family: 'Playfair Display', serif; }
     .script { font-family: 'Dancing Script', cursive; }
 
-    /* Heartbeat background */
+    /* Soft heartbeat glow */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(255,105,180,0.15), transparent 70%);
-      animation: heartbeat 6s ease-in-out infinite;
+      background: radial-gradient(circle at center, rgba(255,105,180,0.12), transparent 70%);
+      animation: heartbeatGlow 8s ease-in-out infinite;
       z-index: -1;
     }
-    @keyframes heartbeat {
-      0%,100% { opacity: 0.35; }
-      50% { opacity: 0.6; }
+    @keyframes heartbeatGlow {
+      0%,100% { opacity: 0.25; }
+      50% { opacity: 0.45; }
     }
 
-    /* Rose petals */
+    /* Rose petals (very subtle) */
     .petal {
       position: fixed;
-      top: -10%;
+      top: -12%;
       width: 14px;
       height: 20px;
-      background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
+      background: radial-gradient(circle at 30% 30%, #ffd6ea, #e75480);
       border-radius: 60% 40% 60% 40%;
-      opacity: 0.35;
+      opacity: 0.22;
       animation: fall linear infinite;
       z-index: -1;
     }
     @keyframes fall {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      15% { opacity: 0.5; }
-      100% { transform: translateY(140vh) rotate(360deg); opacity: 0; }
+      20% { opacity: 0.28; }
+      100% { transform: translateY(150vh) rotate(360deg); opacity: 0; }
     }
 
-    /* Fade in on scroll */
+    /* Reveal animation */
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 1.4s ease;
+      transform: translateY(28px);
+      transition: all 1.6s ease;
     }
     .reveal.show {
       opacity: 1;
@@ -60,83 +60,109 @@
   </style>
 </head>
 
-<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700">
+<body class="bg-gradient-to-b from-rose-200 via-pink-100 to-rose-50 text-gray-700 overflow-x-hidden">
+
+  <!-- 💓 Heartbeat + Breath Audio -->
+  <audio id="heartbeatAudio" loop>
+    <source src="heartbeat.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- Petals -->
-  <div class="petal left-[10%]" style="animation-duration:32s;"></div>
-  <div class="petal left-[30%]" style="animation-duration:36s; animation-delay:6s;"></div>
-  <div class="petal left-[50%]" style="animation-duration:34s; animation-delay:12s;"></div>
-  <div class="petal left-[70%]" style="animation-duration:38s; animation-delay:4s;"></div>
-  <div class="petal left-[85%]" style="animation-duration:40s; animation-delay:10s;"></div>
+  <div class="petal left-[8%]"  style="animation-duration:40s;"></div>
+  <div class="petal left-[24%]" style="animation-duration:44s; animation-delay:6s;"></div>
+  <div class="petal left-[45%]" style="animation-duration:42s; animation-delay:12s;"></div>
+  <div class="petal left-[66%]" style="animation-duration:46s; animation-delay:4s;"></div>
+  <div class="petal left-[82%]" style="animation-duration:48s; animation-delay:10s;"></div>
 
-  <!-- Section 1 -->
+  <!-- SECTION 1 -->
   <section class="min-h-screen flex items-center justify-center px-6 text-center">
-    <div class="max-w-2xl">
-      <h1 class="serif text-4xl text-rose-700 mb-10 reveal">
+    <div class="max-w-3xl">
+      <h1 class="serif text-4xl md:text-5xl text-rose-700 mb-12 reveal">
         🤍 Get Well Soon, <span id="name">Ashok</span>
       </h1>
-      <p class="script text-2xl reveal">
-        Take your time… scroll gently ↓
+      <p class="script text-2xl md:text-3xl reveal text-rose-600">
+        Take this slowly… let the words find you ↓
       </p>
     </div>
   </section>
 
-  <!-- Section 2 -->
+  <!-- SECTION 2 -->
   <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-2xl space-y-10 text-center script text-3xl">
-      <p class="reveal">Come here, love 🤍</p>
+    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
+      <p class="reveal">Come closer, love 🤍</p>
       <p class="reveal">rest your tired heart beside mine.</p>
-      <p class="reveal">You don’t have to be brave today,</p>
-      <p class="reveal">you don’t have to pretend you’re fine.</p>
+      <p class="reveal">You don’t have to carry everything alone,</p>
+      <p class="reveal">not tonight… not ever.</p>
     </div>
   </section>
 
-  <!-- Section 3 -->
+  <!-- SECTION 3 -->
   <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-2xl space-y-10 text-center script text-3xl">
-      <p class="reveal">Breathe slowly 🌸</p>
-      <p class="reveal">let the world soften for a while.</p>
+    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
+      <p class="reveal">Breathe gently 🌸</p>
+      <p class="reveal">let the noise soften, let the rush fade.</p>
       <p class="reveal">I’m right here 🤗</p>
-      <p class="reveal">in the quiet moments between each breath.</p>
+      <p class="reveal">holding the quiet for you.</p>
     </div>
   </section>
 
-  <!-- Section 4 -->
+  <!-- SECTION 4 -->
   <section class="min-h-screen flex items-center justify-center px-6">
-    <div class="max-w-2xl space-y-10 text-center script text-3xl">
-      <p class="reveal">Through the long nights 🌙</p>
-      <p class="reveal">and the slow mornings ☀️</p>
-      <p class="reveal">I’ll stay, until your strength finds you again ✨</p>
+    <div class="max-w-3xl space-y-12 text-center script text-3xl md:text-4xl">
+      <p class="reveal">Through the longest nights 🌙</p>
+      <p class="reveal">and the slowest mornings ☀️</p>
+      <p class="reveal">I’ll stay, until your strength remembers itself ✨</p>
     </div>
   </section>
 
-  <!-- Final -->
+  <!-- FINAL -->
   <section class="min-h-screen flex items-center justify-center px-6 text-center">
-    <div class="max-w-2xl">
-      <p class="script text-3xl reveal">
+    <div class="max-w-3xl">
+      <p class="script text-3xl md:text-4xl reveal">
         Get well soon, <span id="name2">Ashok</span> 😘
       </p>
-      <p class="serif text-xl text-rose-600 mt-12 reveal">
-        🤗 Wrapped in my thoughts, held in my heart, always.
+      <p class="serif text-xl md:text-2xl text-rose-600 mt-14 reveal">
+        🤗 Always near, always yours — in every quiet heartbeat.
       </p>
     </div>
   </section>
 
   <script>
-    const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
+    /* Name from URL */
+    const name =
+      new URLSearchParams(window.location.search).get("name") || "Ashok";
     document.getElementById("name").textContent = name;
     document.getElementById("name2").textContent = name;
 
+    /* Reveal on scroll */
     const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-        }
-      });
-    }, { threshold: 0.25 });
-
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
     reveals.forEach(el => observer.observe(el));
+
+    /* 💓 Heartbeat + Breath Audio (safe start) */
+    const audio = document.getElementById("heartbeatAudio");
+    let audioStarted = false;
+
+    function startHeartbeat() {
+      if (audioStarted) return;
+      audio.volume = 0.18; // keep this LOW
+      audio.play().catch(() => {});
+      audioStarted = true;
+      window.removeEventListener("scroll", startHeartbeat);
+      window.removeEventListener("click", startHeartbeat);
+    }
+
+    window.addEventListener("scroll", startHeartbeat, { once: true });
+    window.addEventListener("click", startHeartbeat, { once: true });
   </script>
 
 </body>
