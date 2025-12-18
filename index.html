@@ -115,8 +115,8 @@
     </div>
   </section>
 
-  <!-- FINAL -->
-  <section id="finalSection" class="min-h-screen flex items-center justify-center px-6 text-center">
+  <!-- FINAL CONTENT -->
+  <section class="min-h-screen flex items-center justify-center px-6 text-center">
     <div class="max-w-3xl">
       <p class="script text-3xl md:text-4xl reveal">
         Get well soon, <span id="name2">Ashok</span> 😘
@@ -151,13 +151,14 @@
     /* 💓 Heartbeat + Breath Audio */
     const audio = document.getElementById("heartbeatAudio");
     let audioStarted = false;
+    let audioStopped = false;
 
     function startHeartbeat() {
-      if (audioStarted) return;
-      audio.volume = 0.3; // start slightly louder
+      if (audioStarted || audioStopped) return;
+      audio.volume = 0.3; // start audible
       audio.play().then(() => {
         audioStarted = true;
-        audio.volume = 0.18; // soften after start
+        audio.volume = 0.18; // soften
       }).catch(() => {});
     }
 
@@ -165,31 +166,28 @@
     window.addEventListener("click", startHeartbeat, { once: true });
     document.addEventListener("touchstart", startHeartbeat, { once: true });
 
-    /* 🛑 Stop heartbeat at FINAL section */
-    const finalSection = document.getElementById("finalSection");
+    /* 🛑 STOP AT END OF SCROLL */
+    function stopAtEnd() {
+      if (!audioStarted || audioStopped) return;
 
-    const endObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && audioStarted) {
-            let fade = setInterval(() => {
-              if (audio.volume > 0.02) {
-                audio.volume -= 0.02;
-              } else {
-                clearInterval(fade);
-                audio.pause();
-                audio.currentTime = 0;
-              }
-            }, 120);
+      const scrollBottom =
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
 
-            endObserver.disconnect();
+      if (scrollBottom) {
+        audioStopped = true;
+        let fade = setInterval(() => {
+          if (audio.volume > 0.02) {
+            audio.volume -= 0.02;
+          } else {
+            clearInterval(fade);
+            audio.pause();
+            audio.currentTime = 0;
           }
-        });
-      },
-      { threshold: 0.6 }
-    );
+        }, 120);
+      }
+    }
 
-    endObserver.observe(finalSection);
+    window.addEventListener("scroll", stopAtEnd);
   </script>
 
 </body>
