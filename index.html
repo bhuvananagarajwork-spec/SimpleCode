@@ -29,7 +29,7 @@
       50% { opacity: 0.45; }
     }
 
-    /* Rose petals (very subtle) */
+    /* Rose petals */
     .petal {
       position: fixed;
       top: -12%;
@@ -37,13 +37,13 @@
       height: 20px;
       background: radial-gradient(circle at 30% 30%, #ffd6ea, #e75480);
       border-radius: 60% 40% 60% 40%;
-      opacity: 0.22;
+      opacity: 0.25;
       animation: fall linear infinite;
       z-index: -1;
     }
     @keyframes fall {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      20% { opacity: 0.28; }
+      20% { opacity: 0.3; }
       100% { transform: translateY(150vh) rotate(360deg); opacity: 0; }
     }
 
@@ -63,7 +63,7 @@
 <body class="bg-gradient-to-b from-rose-200 via-pink-100 to-rose-50 text-gray-700 overflow-x-hidden">
 
   <!-- 💓 Heartbeat + Breath Audio -->
-  <audio id="heartbeatAudio" loop>
+  <audio id="heartbeatAudio" preload="auto" loop playsinline>
     <source src="heartbeat.mp3" type="audio/mpeg">
   </audio>
 
@@ -148,21 +148,25 @@
     );
     reveals.forEach(el => observer.observe(el));
 
-    /* 💓 Heartbeat + Breath Audio (safe start) */
+    /* 💓 HEARTBEAT + BREATH AUDIO — BULLETPROOF */
     const audio = document.getElementById("heartbeatAudio");
     let audioStarted = false;
 
     function startHeartbeat() {
       if (audioStarted) return;
-      audio.volume = 0.18; // keep this LOW
-      audio.play().catch(() => {});
-      audioStarted = true;
-      window.removeEventListener("scroll", startHeartbeat);
-      window.removeEventListener("click", startHeartbeat);
+      audio.volume = 0.3; // temporarily higher for testing
+      audio.play().then(() => {
+        audioStarted = true;
+        audio.volume = 0.18; // soften after start
+      }).catch(err => {
+        console.log("Audio blocked:", err);
+      });
     }
 
+    // ALL required user gestures
     window.addEventListener("scroll", startHeartbeat, { once: true });
     window.addEventListener("click", startHeartbeat, { once: true });
+    document.addEventListener("touchstart", startHeartbeat, { once: true });
   </script>
 
 </body>
