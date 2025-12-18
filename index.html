@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Get Well Soon, Ashok</title>
+  <title>Get Well Soon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <!-- Tailwind -->
@@ -12,117 +12,69 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
-    .handwritten { font-family: 'Pacifico', cursive; }
-    .romantic { font-family: 'Playfair Display', serif; }
-
-    /* Soft glow */
-    .glow {
-      box-shadow: 0 0 40px rgba(255, 120, 170, 0.45);
+    .romantic {
+      font-family: 'Playfair Display', serif;
+    }
+    .handwritten {
+      font-family: 'Pacifico', cursive;
     }
 
-    /* Pulse for name */
-    .pulse {
-      animation: pulse 2s infinite;
+    /* Gentle breathing animation */
+    .breathe {
+      animation: breathe 6s ease-in-out infinite;
     }
-    @keyframes pulse {
+    @keyframes breathe {
       0%,100% { transform: scale(1); }
-      50% { transform: scale(1.07); }
-    }
-
-    /* Falling petals */
-    .petal {
-      position: absolute;
-      bottom: -20px;
-      width: 14px;
-      height: 14px;
-      background: radial-gradient(circle at 30% 30%, #ffc1d9, #ff5fa2);
-      border-radius: 60% 40% 60% 40%;
-      opacity: 0.7;
-      animation: float 10s linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0); opacity: 0; }
-      15% { opacity: 1; }
-      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-    }
-
-    /* Flowers at bottom */
-    .flower {
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle at 30% 30%, #ff9acb, #ff4f93);
-      border-radius: 50%;
-      position: relative;
-    }
-    .flower::after {
-      content: "";
-      position: absolute;
-      width: 12px;
-      height: 45px;
-      background: #4caf50;
-      bottom: -42px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 10px;
+      50% { transform: scale(1.015); }
     }
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-300 via-pink-200 to-rose-200">
+<body class="min-h-screen flex items-center justify-center bg-[#fdecef]">
 
   <!-- Card -->
-  <div class="relative w-[360px] h-[640px] bg-white/95 rounded-[36px] glow px-6 py-10 text-center overflow-hidden">
+  <div class="w-[360px] h-[640px] bg-white rounded-[28px] shadow-xl px-8 py-12 text-center breathe">
 
     <!-- Title -->
-    <h1 class="romantic text-2xl text-rose-600 mb-4">
-      Get Well Soon,
-      <span id="name" class="pulse text-rose-700">Ashok</span> 💖
+    <h1 class="romantic text-2xl text-[#c94b6a] mb-8">
+      Get Well Soon, <span id="name">Ashok</span>
     </h1>
 
-    <!-- Message -->
-    <p class="handwritten text-2xl text-gray-700 leading-snug mb-6">
-      Get well soon,
-      <span id="name2" class="pulse text-rose-600">Ashok</span> 🤍<br/>
-      I love you so much 😘
+    <!-- Main message -->
+    <p class="handwritten text-2xl text-gray-700 leading-relaxed mb-10">
+      Get well soon, <span id="name2">Ashok</span> 🤍<br/>
+      I love you so much.
     </p>
 
-    <!-- Hugs & kisses -->
-    <p class="text-lg text-rose-500 mb-6">
-      Sending you the biggest hugs 🤗<br/>
-      and sweetest kisses 💋
+    <!-- Affection -->
+    <p class="romantic text-lg text-gray-600 mb-10">
+      I wish I could wrap you in the<br/>
+      warmest hug 🤗 and give you<br/>
+      a thousand gentle kisses 😘
     </p>
 
-    <!-- Flowers -->
-    <div class="flex justify-center gap-6 my-8">
-      <div class="flower"></div>
-      <div class="flower"></div>
-      <div class="flower"></div>
-    </div>
+    <!-- Divider -->
+    <div class="w-12 h-[2px] bg-[#f1b7c4] mx-auto mb-10"></div>
 
-    <p class="handwritten text-lg text-rose-600">
-      Each flower carries love,<br/>
-      strength, and healing 🌸
+    <!-- Closing -->
+    <p class="handwritten text-lg text-[#c94b6a]">
+      Rest, heal, and remember<br/>
+      you are deeply loved 🌸
     </p>
 
     <!-- Signature -->
-    <p class="mt-8 text-sm text-rose-500">
-      — Always with love, for <span id="name3">Ashok</span> 💌
+    <p class="mt-12 text-sm text-[#c94b6a]">
+      — Always with love, for <span id="name3">Ashok</span>
     </p>
 
-    <!-- Petals -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="petal left-[10%]" style="animation-delay:0s"></div>
-      <div class="petal left-[30%]" style="animation-delay:3s"></div>
-      <div class="petal left-[55%]" style="animation-delay:6s"></div>
-      <div class="petal left-[75%]" style="animation-delay:2s"></div>
-    </div>
   </div>
 
-  <!-- Editable Name -->
+  <!-- Editable name -->
   <script>
-    const n = new URLSearchParams(window.location.search).get("name") || "Ashok";
-    ["name","name2","name3"].forEach(id => document.getElementById(id).textContent = n);
+    const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
+    ["name","name2","name3"].forEach(id => {
+      document.getElementById(id).textContent = name;
+    });
   </script>
 
 </body>
