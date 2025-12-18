@@ -8,73 +8,119 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Pacifico&display=swap" rel="stylesheet">
+  <!-- Romantic Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
   <style>
-    .romantic {
-      font-family: 'Playfair Display', serif;
-    }
-    .handwritten {
-      font-family: 'Pacifico', cursive;
-    }
+    .serif { font-family: 'Playfair Display', serif; }
+    .script { font-family: 'Dancing Script', cursive; }
 
-    /* Gentle breathing animation */
+    /* Card breathing */
     .breathe {
-      animation: breathe 6s ease-in-out infinite;
+      animation: breathe 8s ease-in-out infinite;
     }
     @keyframes breathe {
       0%,100% { transform: scale(1); }
-      50% { transform: scale(1.015); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Rose petals */
+    .petal {
+      position: absolute;
+      top: -10%;
+      width: 16px;
+      height: 22px;
+      background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
+      border-radius: 60% 40% 60% 40%;
+      opacity: 0.5;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.6; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-[#fdecef]">
+<body class="min-h-screen bg-gradient-to-b from-rose-200 via-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
 
-  <!-- Card -->
-  <div class="w-[360px] h-[640px] bg-white rounded-[28px] shadow-xl px-8 py-12 text-center breathe">
+  <!-- Petals -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="petal left-[10%]" style="animation-duration:22s;"></div>
+    <div class="petal left-[30%]" style="animation-duration:26s; animation-delay:3s;"></div>
+    <div class="petal left-[50%]" style="animation-duration:24s; animation-delay:6s;"></div>
+    <div class="petal left-[70%]" style="animation-duration:28s; animation-delay:2s;"></div>
+    <div class="petal left-[85%]" style="animation-duration:30s; animation-delay:5s;"></div>
+  </div>
+
+  <!-- Letter Card -->
+  <div class="relative w-[360px] h-[640px] bg-white/95 rounded-[32px] shadow-2xl px-8 py-12 text-center breathe z-10">
 
     <!-- Title -->
-    <h1 class="romantic text-2xl text-[#c94b6a] mb-8">
+    <h1 class="serif text-2xl text-rose-700 mb-8">
       Get Well Soon, <span id="name">Ashok</span>
     </h1>
 
-    <!-- Main message -->
-    <p class="handwritten text-2xl text-gray-700 leading-relaxed mb-10">
-      Get well soon, <span id="name2">Ashok</span> 🤍<br/>
-      I love you so much.
-    </p>
-
-    <!-- Affection -->
-    <p class="romantic text-lg text-gray-600 mb-10">
-      I wish I could wrap you in the<br/>
-      warmest hug 🤗 and give you<br/>
-      a thousand gentle kisses 😘
-    </p>
-
-    <!-- Divider -->
-    <div class="w-12 h-[2px] bg-[#f1b7c4] mx-auto mb-10"></div>
-
-    <!-- Closing -->
-    <p class="handwritten text-lg text-[#c94b6a]">
-      Rest, heal, and remember<br/>
-      you are deeply loved 🌸
-    </p>
+    <!-- Poem container -->
+    <div id="poem" class="script text-2xl text-gray-700 leading-relaxed space-y-4"></div>
 
     <!-- Signature -->
-    <p class="mt-12 text-sm text-[#c94b6a]">
-      — Always with love, for <span id="name3">Ashok</span>
+    <p id="signature" class="serif text-sm text-rose-600 mt-12 opacity-0">
+      Always with you,<br/>
+      wrapped in hugs 🤍 and kisses 💋
     </p>
-
   </div>
 
-  <!-- Editable name -->
   <script>
     const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
-    ["name","name2","name3"].forEach(id => {
-      document.getElementById(id).textContent = name;
-    });
+    document.getElementById("name").textContent = name;
+
+    const poemLines = [
+      `If love could heal, you’d be whole today,`,
+      `because every heartbeat of mine walks your way.`,
+      `I’d hold your pain and let you rest,`,
+      `kiss your worries from your chest.`,
+      ``,
+      `So take your time, my love, be still,`,
+      `let every breath rebuild your will.`,
+      `I’m right here — through night and dawn,`,
+      `until your strength feels fully on.`,
+      ``,
+      `Get well soon, ${name}, softly and true,`,
+      `my heart is always waiting for you.`
+    ];
+
+    const poemDiv = document.getElementById("poem");
+    let lineIndex = 0;
+
+    function typeLine(text, callback) {
+      const line = document.createElement("div");
+      poemDiv.appendChild(line);
+      let charIndex = 0;
+
+      const typing = setInterval(() => {
+        line.textContent += text[charIndex] || "";
+        charIndex++;
+        if (charIndex > text.length) {
+          clearInterval(typing);
+          setTimeout(callback, 800);
+        }
+      }, 40);
+    }
+
+    function startPoem() {
+      if (lineIndex < poemLines.length) {
+        typeLine(poemLines[lineIndex], () => {
+          lineIndex++;
+          startPoem();
+        });
+      } else {
+        document.getElementById("signature").classList.remove("opacity-0");
+      }
+    }
+
+    startPoem();
   </script>
 
 </body>
