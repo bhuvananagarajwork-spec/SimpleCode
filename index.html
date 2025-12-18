@@ -116,7 +116,7 @@
   </section>
 
   <!-- FINAL -->
-  <section class="min-h-screen flex items-center justify-center px-6 text-center">
+  <section id="finalSection" class="min-h-screen flex items-center justify-center px-6 text-center">
     <div class="max-w-3xl">
       <p class="script text-3xl md:text-4xl reveal">
         Get well soon, <span id="name2">Ashok</span> 😘
@@ -148,25 +148,48 @@
     );
     reveals.forEach(el => observer.observe(el));
 
-    /* 💓 HEARTBEAT + BREATH AUDIO — BULLETPROOF */
+    /* 💓 Heartbeat + Breath Audio */
     const audio = document.getElementById("heartbeatAudio");
     let audioStarted = false;
 
     function startHeartbeat() {
       if (audioStarted) return;
-      audio.volume = 0.3; // temporarily higher for testing
+      audio.volume = 0.3; // start slightly louder
       audio.play().then(() => {
         audioStarted = true;
         audio.volume = 0.18; // soften after start
-      }).catch(err => {
-        console.log("Audio blocked:", err);
-      });
+      }).catch(() => {});
     }
 
-    // ALL required user gestures
     window.addEventListener("scroll", startHeartbeat, { once: true });
     window.addEventListener("click", startHeartbeat, { once: true });
     document.addEventListener("touchstart", startHeartbeat, { once: true });
+
+    /* 🛑 Stop heartbeat at FINAL section */
+    const finalSection = document.getElementById("finalSection");
+
+    const endObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && audioStarted) {
+            let fade = setInterval(() => {
+              if (audio.volume > 0.02) {
+                audio.volume -= 0.02;
+              } else {
+                clearInterval(fade);
+                audio.pause();
+                audio.currentTime = 0;
+              }
+            }, 120);
+
+            endObserver.disconnect();
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    endObserver.observe(finalSection);
   </script>
 
 </body>
