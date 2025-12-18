@@ -5,38 +5,25 @@
 <title>Get Well Soon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
 <style>
   .serif { font-family: 'Playfair Display', serif; }
   .script { font-family: 'Dancing Script', cursive; }
 
-  /* Heartbeat glow */
+  /* Visual heartbeat */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background: radial-gradient(circle at center, rgba(255,105,180,0.25), transparent 70%);
-    opacity: 0.3;
-    transition: opacity 1.2s ease;
+    opacity: var(--beat, 0.3);
+    transition: opacity 0.25s ease;
     z-index: -1;
   }
 
-  /* Night fade */
-  body.night {
-    background: linear-gradient(to bottom, #1a1025, #2b163f);
-    color: #f5e9f2;
-  }
-
-  body.night::before {
-    opacity: 0.12;
-  }
-
-  /* Petals */
+  /* Rose petals */
   .petal {
     position: fixed;
     top: -10%;
@@ -44,79 +31,60 @@
     height: 20px;
     background: radial-gradient(circle at 30% 30%, #ffd1e8, #e75480);
     border-radius: 60% 40% 60% 40%;
-    opacity: 0.4;
+    opacity: 0.45;
     animation: fall linear infinite;
     z-index: -1;
   }
 
   @keyframes fall {
-    to { transform: translateY(140vh) rotate(360deg); }
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(140vh) rotate(360deg); }
   }
 
-  /* Petal bed */
   .petal-bed {
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 90px;
-    background: linear-gradient(to top, rgba(231,84,128,0.4), transparent);
+    background: linear-gradient(to top, rgba(231,84,128,0.35), transparent);
   }
 </style>
 </head>
 
-<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 overflow-x-hidden transition-colors duration-[2000ms]">
+<body class="bg-gradient-to-b from-rose-300 via-pink-200 to-rose-100 text-gray-700 overflow-x-hidden">
 
-<!-- Petals -->
-<div class="petal left-[12%]" style="animation-duration:30s;"></div>
-<div class="petal left-[28%]" style="animation-duration:34s;"></div>
-<div class="petal left-[45%]" style="animation-duration:32s;"></div>
-<div class="petal left-[65%]" style="animation-duration:36s;"></div>
-<div class="petal left-[82%]" style="animation-duration:38s;"></div>
+<div class="petal left-[10%]" style="animation-duration:30s;"></div>
+<div class="petal left-[30%]" style="animation-duration:34s;"></div>
+<div class="petal left-[50%]" style="animation-duration:32s;"></div>
+<div class="petal left-[70%]" style="animation-duration:36s;"></div>
 
-<!-- SECTION 1 -->
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <h1 class="serif text-4xl text-rose-700">
+    🤍 Get Well Soon, Ashok
+  </h1>
+</section>
+
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <p class="script text-3xl">
+    Come here, love 🤍<br/>
+    rest your tired heart next to mine.
+  </p>
+</section>
+
+<section class="min-h-screen flex items-center justify-center text-center px-6">
+  <p class="script text-3xl">
+    Breathe slowly 🌸<br/>
+    I’m right here 🤗
+  </p>
+</section>
+
 <section class="min-h-screen flex items-center justify-center text-center px-6">
   <div>
-    <h1 class="serif text-4xl mb-6">
-      🤍 Get Well Soon, <span id="name">Ashok</span>
-    </h1>
-    <p class="script text-3xl">Scroll slowly ↓</p>
-  </div>
-</section>
-
-<!-- SECTION 2 -->
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <div class="script text-3xl space-y-6">
-    <p>Come here, love 🤍</p>
-    <p>rest your tired heart next to mine.</p>
-    <p>If I could take your pain,</p>
-    <p>I’d carry it quietly for you 😘</p>
-  </div>
-</section>
-
-<!-- SECTION 3 -->
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <div class="script text-3xl space-y-6">
-    <p>Breathe slowly 🌸</p>
-    <p>You don’t need to be strong.</p>
-    <p>I’m right here 🤗</p>
-    <p>in every pause, every beat.</p>
-  </div>
-</section>
-
-<!-- FINAL HUG -->
-<section class="min-h-screen flex items-center justify-center text-center px-6">
-  <div>
-    <p class="script text-4xl mb-10">
-      Get well soon, <span id="name2">Ashok</span> 💞
+    <p class="script text-4xl mb-8">
+      Get well soon, Ashok 💞
     </p>
-
-    <button id="hugBtn"
-      class="bg-rose-500 text-white px-10 py-5 rounded-full text-2xl shadow-xl active:scale-95 transition">
-      🤍 Hold me
-    </button>
-
-    <p id="whisper" class="serif text-xl mt-10 opacity-0 transition-opacity duration-2000">
-      *I’m right here… feel my heartbeat with yours.*
+    <p class="serif text-xl text-rose-700">
+      🤍 Feel my heartbeat with you
     </p>
   </div>
 </section>
@@ -124,34 +92,11 @@
 <div class="petal-bed"></div>
 
 <script>
-  // Name
-  const name = new URLSearchParams(window.location.search).get("name") || "Ashok";
-  document.getElementById("name").textContent = name;
-  document.getElementById("name2").textContent = name;
-
-  // HEARTBEAT VIBRATION (REAL BPM)
-  const hugBtn = document.getElementById("hugBtn");
-  let heartbeatInterval;
-
-  hugBtn.addEventListener("click", () => {
-    if (!navigator.vibrate) {
-      alert("Vibration not supported on this device 🤍");
-      return;
-    }
-
-    // Immediate vibration (REQUIRED)
-    navigator.vibrate([120, 80, 120, 510]);
-
-    // Repeat heartbeat safely
-    heartbeatInterval = setInterval(() => {
-      navigator.vibrate([120, 80, 120, 510]);
-    }, 830); // ~72 BPM
-
-    // Fade to night
-    document.body.classList.add("night");
-
-    // Whisper
-    document.getElementById("whisper").classList.remove("opacity-0");
+  // Heartbeat synced to scroll (iPhone safe)
+  window.addEventListener("scroll", () => {
+    const max = document.body.scrollHeight - innerHeight;
+    const progress = window.scrollY / max;
+    document.body.style.setProperty("--beat", 0.25 + progress * 0.45);
   });
 </script>
 
