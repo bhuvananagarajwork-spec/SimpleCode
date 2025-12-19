@@ -5,20 +5,22 @@
   <title>Get Well Soon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
   <style>
     .serif { font-family: 'Playfair Display', serif; }
     .script { font-family: 'Dancing Script', cursive; }
 
-    /* Soft romantic glow */
+    /* Soft romantic red glow */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(circle at center, rgba(255,0,0,0.10), transparent 70%);
+      background: radial-gradient(circle at center, rgba(255,0,0,0.12), transparent 70%);
       z-index: -2;
     }
 
@@ -30,24 +32,19 @@
       opacity: 0.35;
       animation: floatDown linear infinite;
       z-index: -1;
+      pointer-events: none;
     }
 
     @keyframes floatDown {
-      0% {
-        transform: translateY(0) translateX(0) scale(1);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
       20% { opacity: 0.35; }
-      100% {
-        transform: translateY(140vh) translateX(30px) scale(1.2);
-        opacity: 0;
-      }
+      100% { transform: translateY(140vh) translateX(40px); opacity: 0; }
     }
 
-    /* Reveal animation */
+    /* Reveal text */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(26px);
       transition: all 1.4s ease;
     }
     .reveal.show {
@@ -66,7 +63,7 @@
   <div class="heart left-[65%]" style="animation-duration:36s; animation-delay:4s;">💘</div>
   <div class="heart left-[80%]" style="animation-duration:38s; animation-delay:10s;">❤️</div>
 
-  <!-- AUDIO -->
+  <!-- 💓 Audio -->
   <audio id="heartbeatAudio" preload="auto" loop playsinline>
     <source src="heartbeat.mp3" type="audio/mpeg">
   </audio>
@@ -78,7 +75,7 @@
         ❤️ Get Well Soon, <span id="name">Ashok</span>
       </h1>
       <p class="script text-3xl mt-6 reveal text-red-600">
-        Scroll slowly ↓
+        Scroll slowly… this is just for you ↓
       </p>
     </div>
   </section>
@@ -87,9 +84,9 @@
   <section class="min-h-screen flex items-center justify-center text-center px-6">
     <div class="script text-4xl space-y-10 max-w-3xl">
       <p class="reveal">Come closer, my love ❤️</p>
-      <p class="reveal">let the world fade just for a moment.</p>
-      <p class="reveal">You’ve been so strong for so long,</p>
-      <p class="reveal">now it’s okay to rest in my heart.</p>
+      <p class="reveal">let the noise of the world soften.</p>
+      <p class="reveal">You’ve been brave in ways no one sees,</p>
+      <p class="reveal">now it’s time to rest inside my care.</p>
     </div>
   </section>
 
@@ -97,19 +94,19 @@
   <section class="min-h-screen flex items-center justify-center text-center px-6">
     <div class="script text-4xl space-y-10 max-w-3xl">
       <p class="reveal">Breathe slowly 💞</p>
-      <p class="reveal">feel my love wrap around you.</p>
-      <p class="reveal">Every beat you hear,</p>
-      <p class="reveal">is me whispering: you’re not alone.</p>
+      <p class="reveal">with every beat you hear.</p>
+      <p class="reveal">That sound is me reminding you,</p>
+      <p class="reveal">you are deeply, endlessly loved.</p>
     </div>
   </section>
 
   <!-- POEM 3 -->
   <section class="min-h-screen flex items-center justify-center text-center px-6">
     <div class="script text-4xl space-y-10 max-w-3xl">
-      <p class="reveal">If healing takes time,</p>
-      <p class="reveal">I’ll give you all of mine ❤️</p>
-      <p class="reveal">If your smile feels far away,</p>
-      <p class="reveal">I’ll wait… right here… with you.</p>
+      <p class="reveal">If healing asks for patience,</p>
+      <p class="reveal">I will give you all of mine ❤️</p>
+      <p class="reveal">If your strength feels far away,</p>
+      <p class="reveal">I’ll stay — quietly — until it returns.</p>
     </div>
   </section>
 
@@ -129,71 +126,77 @@
   <button
     id="muteBtn"
     class="fixed bottom-6 left-1/2 -translate-x-1/2
-           bg-white/80 backdrop-blur-md
-           px-5 py-2 rounded-full shadow-lg
-           text-red-600 text-sm serif"
+           bg-white/90 backdrop-blur-md
+           px-5 py-2 rounded-full shadow-xl
+           text-red-600 text-sm serif
+           z-50"
   >
     🔊 Sound on
   </button>
 
   <script>
-    /* Name */
+    /* Name from URL */
     const name =
       new URLSearchParams(window.location.search).get("name") || "Ashok";
     document.getElementById("name").textContent = name;
     document.getElementById("name2").textContent = name;
 
-    /* Reveal */
-    const observer = new IntersectionObserver(
+    /* Reveal text on scroll */
+    const revealObserver = new IntersectionObserver(
       entries => entries.forEach(e => e.isIntersecting && e.target.classList.add("show")),
       { threshold: 0.3 }
     );
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
-    /* Audio */
+    /* Audio logic */
     const audio = document.getElementById("heartbeatAudio");
     const muteBtn = document.getElementById("muteBtn");
+    const finalLine = document.getElementById("finalLine");
 
     let started = false;
     let stopped = false;
     let muted = false;
 
-    function startAudio() {
+    function startAudioOnce() {
       if (started || stopped) return;
       audio.volume = 0.25;
       audio.play().then(() => started = true).catch(() => {});
     }
 
-    document.addEventListener("touchstart", startAudio, { once: true });
-    document.addEventListener("click", startAudio, { once: true });
-    window.addEventListener("scroll", startAudio, { once: true });
+    document.addEventListener("touchstart", startAudioOnce, { once: true });
+    document.addEventListener("click", startAudioOnce, { once: true });
+    window.addEventListener("scroll", startAudioOnce, { once: true });
 
+    /* Mute toggle */
     muteBtn.addEventListener("click", () => {
       muted = !muted;
       audio.muted = muted;
       muteBtn.textContent = muted ? "🔇 Muted" : "🔊 Sound on";
     });
 
-    function fadeWithScroll() {
-      if (!started || stopped) return;
+    /* Fade + stop audio at final line */
+    const stopObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && started && !stopped) {
+            stopped = true;
+            let fade = setInterval(() => {
+              if (audio.volume > 0.02) {
+                audio.volume -= 0.02;
+              } else {
+                clearInterval(fade);
+                audio.pause();
+                audio.currentTime = 0;
+                muteBtn.style.display = "none";
+              }
+            }, 120);
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
 
-      const progress = Math.min(
-        window.scrollY / (document.body.scrollHeight - window.innerHeight),
-        1
-      );
-
-      audio.volume = Math.max(0.02, 0.25 * (1 - progress));
-
-      if (progress >= 0.98) {
-        stopped = true;
-        audio.pause();
-        audio.currentTime = 0;
-        muteBtn.style.display = "none";
-        window.removeEventListener("scroll", fadeWithScroll);
-      }
-    }
-
-    window.addEventListener("scroll", fadeWithScroll);
+    stopObserver.observe(finalLine);
   </script>
 
 </body>
